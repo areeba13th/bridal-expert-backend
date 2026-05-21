@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ✅ YEH LINE ADD KARO
-app.use(express.static(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert")));
+app.use(express.static(path.join(__dirname, "../frontend")));
 
 // ✅ YAHAN ADD KARO - frontend files serve karne ke liye
 
@@ -25,49 +25,49 @@ app.use(express.static(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal E
 
 // ✅ YAHAN RAKHO — sabse upar
 app.get("/HOME.html", (req, res) => {
-    res.sendFile(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\HOME.html"));
+    res.sendFile(path.join(__dirname, "../frontend/HOME.html"));
 });
 app.get("/admin", (req, res) => {
-    res.sendFile("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\backend\\admin.html");
+    res.sendFile(path.join(__dirname, "admin.html");
 });
 app.get("/admin.html", (req, res) => {
-    res.sendFile("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\backend\\admin.html");
+    res.sendFile(path.join(__dirname, "admin.html");
 });
 app.get("/admin-bookings.html", (req, res) => {
-    res.sendFile("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\backend\\admin-bookings.html");
+    res.sendFile(path.join(__dirname, "admin-bookings.html");
 });
 app.get("/admin-appointment.html", (req, res) => {
-    res.sendFile("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\backend\\admin-appointment.html");
+    res.sendFile(path.join(__dirname, "admin-appointment.html");
 });
 app.get("/dress-inventory.html", (req, res) => {
-    res.sendFile("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\backend\\dress-inventory.html");
+    res.sendFile(path.join(__dirname, "dress-inventory.html");
 });
 app.get("/client-list.html", (req, res) => {
-    res.sendFile("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\backend\\client-list.html");
+    res.sendFile(path.join(__dirname, "client-list.html");
 });
 app.get("/sales-report.html", (req, res) => {
-    res.sendFile("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\backend\\sales-report.html");
+    res.sendFile(path.join(__dirname, "sales-report.html");
 });
 app.get("/settings.html", (req, res) => {
-    res.sendFile("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\backend\\settings.html");
+    res.sendFile(path.join(__dirname, "settings.html");
 });
 app.get("/Ready to wear.html", (req, res) => {
-    res.sendFile(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\Ready to wear.html"));
+    res.sendFile(path.join(__dirname, "../frontend/Ready to wear.html"));
 });
 app.get("/Bridal.html", (req, res) => {
-    res.sendFile(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\Bridal.html"));
+    res.sendFile(path.join(__dirname, "../frontend/Bridal.html"));
 });
 app.get("/Couture collection.html", (req, res) => {
-    res.sendFile(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\Couture collection.html"));
+    res.sendFile(path.join(__dirname, "../frontend/Couture collection.html"));
 });
 app.get("/Appointment.html", (req, res) => {
-    res.sendFile(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\Appointment.html"));
+    res.sendFile(path.join(__dirname, "../frontend/Appointment.html"));
 });
 app.get("/signature-collection.html", (req, res) => {
-    res.sendFile(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\signature-collection.html"));
+    res.sendFile(path.join(__dirname, "../frontend/signature-collection.html"));
 });
 app.get("/Modern collectioction.html",(req, res) => {
-     res.sendFile(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\signature-collection.html"));
+     res.sendFile(path.join(__dirname, "../frontend/signature-collection.html"));
 });
 
 // Uploads directory config
@@ -307,7 +307,7 @@ app.get("/api/orders", async (req, res) => {
     }
 });
 app.get("/dashboard-style.css", (req, res) => {
-    res.sendFile(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\backend\\dashboard-style.css"));
+    res.sendFile(path.join(__dirname, "dashboard-style.css"));
 });
 
 // ================= AUTH =================
@@ -402,7 +402,7 @@ app.get("/api/get-orders", async (req, res) => {
     }
 });
 app.get("/dashboard-style.css", (req, res) => {
-    res.sendFile(path.resolve("C:\\Users\\QAC\\OneDrive\\Desktop\\Bridal Expert\\backend\\dashboard-style.css"));
+    res.sendFile(path.join(__dirname, "dashboard-style.css"));
 });
 
 // ADD NEW DRESS (POST)
