@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bridal Expert | Premium Checkout</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLING --- */
+        :root {
+            --beige: #FAF9F6;
+            --gold: #D4AF37;
+            --maroon: #800000;
+            --dark: #1A1A1A;
+            --white: #FFFFFF;
+            --grey: #F2F2F2;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--beige);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .price-tag {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 400;
+        }
+
+        .divider {
+            width: 80px;
+            height: 1.5px;
+            background: var(--gold);
+            margin: 15px auto;
+        }
+
+        /* Layout Grid */
+        .cart-wrapper {
+            display: grid;
+            grid-template-columns: 1.8fr 1.2fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        /* Left Side: Product Details */
+        .product-card {
+            background: var(--white);
+            display: flex;
+            padding: 40px;
+            border: 1px solid rgba(0,0,0,0.05);
+            gap: 30px;
+        }
+
+        .product-image {
+            flex: 1;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        .product-info {
+            flex: 1.5;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .price-tag {
+            color: var(--maroon);
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+        }
+
+        /* Customization Section */
+        .customization-box {
+            border-top: 1px solid var(--grey);
+            padding-top: 20px;
+        }
+
+        .customization-box h3 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .specs-list {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .specs-list li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .specs-list strong {
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        /* Right Side: Order Summary */
+        .summary-card {
+            background: var(--white);
+            padding: 40px;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: sticky;
+            top: 40px;
+        }
+
+        .summary-card h2 {
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--grey);
+            padding-bottom: 15px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            font-size: 0.95rem;
+        }
+
+        .total-row {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid var(--beige);
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: var(--maroon);
+        }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 35px;
+        }
+
+        .btn {
+            padding: 18px;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+
+        .btn-checkout { background: var(--dark); color: white; }
+        .btn-checkout:hover { background: #000; letter-spacing: 3px; }
+
+        .btn-consult { border: 1px solid var(--gold); color: var(--gold); background: transparent; }
+        .btn-consult:hover { background: var(--gold); color: white; }
+
+        .btn-wa { background: #25D366; color: white; font-size: 0.8rem; }
+        .btn-wa:hover { background: #1eb956; }
+
+        .delivery-note {
+            margin-top: 25px;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #999;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .cart-wrapper { grid-template-columns: 1fr; }
+            .product-card { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>Bridal Expert</h1>
+            <div class="divider"></div>
+        </header>
+
+        <div class="cart-wrapper">
+            <main>
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1594463750939-ebb28c3f7f75?auto=format&fit=crop&q=80&w=500" alt="Bridal Wear">
+                    </div>
+                    
+                    <div class="product-info">
+                        <div>
+                            <h2 id="item-title">Luxury Maroon Bridal Lehenga</h2>
+                            <p class="price-tag">Rs. 185,000</p>
+                            
+                            <div class="customization-box">
+                                <h3>Customization Summary</h3>
+                                <ul class="specs-list">
+                                    <li><strong>Measurements:</strong> Chest 34", Waist 28", Length 42"</li>
+                                    <li><strong>Fabric:</strong> Pure Velvet & Organza</li>
+                                    <li><strong>Embroidery:</strong> Hand-crafted Zardozi (Heavy)</li>
+                                    <li><strong>Color:</strong> Deep Maroon / Gold Accents</li>
+                                    <li><strong>Special Notes:</strong> "Need heavy tassels on dupatta corners."</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 20px; font-style: italic; font-size: 0.85rem; color: #777;">
+                            📅 Estimated Delivery: 6–8 Weeks
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <aside class="summary-card">
+                <h2>Summary</h2>
+                
+                <div class="row">
+                    <span>Base Price</span>
+                    <span>Rs. 185,000</span>
+                </div>
+                <div class="row">
+                    <span>Customization Fee</span>
+                    <span>Rs. 15,000</span>
+                </div>
+                <div class="row">
+                    <span>Delivery</span>
+                    <span style="color: green; font-weight: 600;">FREE</span>
+                </div>
+
+                <div class="row total-row">
+                    <span>Total Amount</span>
+                    <span id="grand-total">Rs. 200,000</span>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-checkout" onclick="handleCheckout()">Proceed to Checkout</button>
+                    <button class="btn btn-consult" onclick="handleConsultation()">Book Design Consultation</button>
+                    <button class="btn btn-wa" onclick="confirmOnWhatsApp()">Confirm via WhatsApp</button>
+                </div>
+
+                <p class="delivery-note">
+                    * 50% advance is required to initiate the production process.
+                </p>
+            </aside>
+        </div>
+    </div>
+
+    <script>
+        function handleCheckout() {
+            // Logic for backend redirect
+            console.log("Saving customization data to backend...");
+            alert("Redirecting to Shipping & Payment Details...");
+        }
+
+        function handleConsultation() {
+            alert("Our Bridal Consultant will contact you within 24 hours to discuss your measurements.");
+        }
+
+        function confirmOnWhatsApp() {
+            const dressName = document.getElementById('item-title').innerText;
+            const total = document.getElementById('grand-total').innerText;
+            
+            // Crafting the WhatsApp message
+            const message = `Hello Bridal Expert! 🌸\n\nI want to confirm my order for: *${dressName}*.\nTotal Amount: *${total}*.\n\nPlease share the details for the 50% advance payment. Thank you!`;
+            
+            // Replace with your actual business number
+            const phoneNumber = "923XXXXXXXXX"; 
+            const encodedMessage = encodeURIComponent(message);
+            const waUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            
+            window.open(waUrl, '_blank');
+        }
+
+        // Potential for backend data attachment
+        const orderData = {
+            product: "Luxury Maroon Bridal Lehenga",
+            price: 200000,
+            customization: {
+                chest: 34,
+                waist: 28,
+                notes: "Heavy tassels requested"
+            }
+        };
+        console.log("Ready for database connection:", orderData);
+    </script>
+
+</body>
+</html>

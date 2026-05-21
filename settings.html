@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Bridal Expert Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+   
+    <link rel="stylesheet" href="dashboard-style.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; padding: 0; font-family: 'Poppins', sans-serif; background-color: #fdfaf7; color: #5e503f; }
+        .dashboard-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 260px; background-color: #5e503f; color: white; padding: 20px; position: sticky; top: 0; height: 100vh; flex-shrink: 0; display: flex; flex-direction: column; }
+        .sidebar-header h2 { text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; margin-bottom: 20px; font-size: 20px; letter-spacing: 1px; }
+        .nav-links { list-style: none; padding: 0; margin: 0; flex-grow: 1; }
+        .nav-links li { padding: 12px 15px; margin-bottom: 5px; border-radius: 12px; transition: 0.3s; }
+        .nav-links li a { color: #fcf8f5; text-decoration: none; display: flex; align-items: center; gap: 12px; font-size: 14px; }
+        .nav-links li.active, .nav-links li:hover { background-color: #d4a373; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .logout { margin-top: auto; background-color: rgba(230, 57, 70, 0.1); border: 1px solid rgba(230, 57, 70, 0.2); }
+        .logout:hover { background-color: #e63946 !important; }
+        .main-content { flex: 1; padding: 30px 40px; overflow-x: hidden; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .welcome-text h1 { margin: 0; font-size: 24px; color: #5e503f; }
+        .welcome-text p { margin: 5px 0 0; color: #a39171; font-size: 14px; }
+        .user-profile-pill { background: white; padding: 8px 18px; border-radius: 50px; display: flex; align-items: center; gap: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .online-dot { width: 8px; height: 8px; background: #2ecc71; border-radius: 50%; display: inline-block; }
+        .admin-avatar { width: 35px; height: 35px; background: #d4a373; color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 13px; }
+
+        .settings-container { max-width: 900px; display: flex; flex-direction: column; gap: 25px; padding-bottom: 40px; }
+        .settings-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); border: 1px solid #f1f1f1; }
+        .settings-header { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; color: #5e503f; border-bottom: 1px solid #f8f8f8; padding-bottom: 15px; }
+        .settings-header i { font-size: 20px; color: #d4a373; }
+        .settings-header h3 { margin: 0; font-weight: 600; font-size: 16px; }
+        .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-size: 13px; font-weight: 600; color: #5e503f; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #eee;
+            font-family: inherit; font-size: 14px; outline: none; background: #fdfaf7; transition: 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #5e503f; box-shadow: 0 0 0 3px rgba(94,80,63,0.1);
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+        .save-btn {
+            padding: 12px 30px; background: #5e503f; color: white; border: none;
+            border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14px;
+            transition: 0.3s; display: inline-flex; align-items: center; gap: 8px;
+        }
+        .save-btn:hover { background: #d4a373; transform: translateY(-2px); }
+        .danger-zone { border: 1px solid #ffe3e3; background: #fffafa; }
+        .danger-zone .settings-header i { color: #d90429; }
+        .danger-zone .settings-header h3 { color: #d90429; }
+        .reset-btn {
+            padding: 12px 25px; background: #d90429; color: white; border: none;
+            border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 14px; transition: 0.3s;
+        }
+        .reset-btn:hover { background: #b90422; transform: translateY(-2px); }
+        .toast {
+            position: fixed; bottom: 30px; right: 30px; background: #5e503f; color: white;
+            padding: 15px 25px; border-radius: 12px; font-size: 14px; font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: none; z-index: 9999;
+            animation: slideIn 0.3s ease;
+        }
+        .toast.success { background: #2ecc71; }
+        .toast.error { background: #e63946; }
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .info-badge { background: #fdf6ec; color: #d4a373; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-left: 10px; }
+        .divider { border: none; border-top: 1px solid #f0f0f0; margin: 20px 0; }
+        @media (max-width: 700px) { .settings-grid { grid-template-columns: 1fr; } .full-width { grid-column: span 1; } }
+        @media (max-width: 992px) { .sidebar { width: 80px; padding: 20px 10px; } .sidebar-header h2, .nav-links span { display: none; } .main-content { padding: 20px; } }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <nav class="sidebar">
+        <div class="sidebar-header"><h2>Bridal Expert</h2></div>
+        <ul class="nav-links">
+            <li><a href="/admin.html"><i class="fas fa-home"></i> <span>Dashboard</span></a></li>
+            <li><a href="/admin-bookings.html"><i class="fas fa-calendar-alt"></i> <span>Custom Bookings</span></a></li>
+            <li><a href="/admin-appointment.html"><i class="fas fa-calendar-check"></i> <span>Appointments</span></a></li>
+            <li><a href="/dress-inventory.html"><i class="fas fa-cut"></i> <span>Dress Inventory</span></a></li>
+            <li><a href="/client-list.html"><i class="fas fa-users"></i> <span>Client List</span></a></li>
+            <li><a href="/sales-report.html"><i class="fas fa-chart-line"></i> <span>Sales Report</span></a></li>
+            <li class="active"><a href="/settings.html"><i class="fas fa-cog"></i> <span>Settings</span></a></li>
+            <li class="logout"><a href="/index.html"><i class="fas fa-sign-out-alt"></i> <span>Logout Admin</span></a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <div class="welcome-text">
+                <h1>System Settings</h1>
+                <p>Bridal Expert — Boutique Management</p>
+            </div>
+            <div class="user-profile-pill">
+                <span class="online-dot"></span> <strong>Admin</strong>
+                <div class="admin-avatar">AD</div>
+            </div>
+        </header>
+
+        <div class="settings-container">
+
+            <!-- Boutique Profile -->
+            <section class="settings-card">
+                <div class="settings-header">
+                    <i class="fas fa-store"></i>
+                    <h3>Boutique Profile</h3>
+                    <span class="info-badge">Bridal Expert</span>
+                </div>
+                <div class="settings-grid">
+                    <div class="form-group">
+                        <label>Brand Name</label>
+                        <input type="text" id="brandName" value="Bridal Expert">
+                    </div>
+                    <div class="form-group">
+                        <label>Business Category</label>
+                        <input type="text" value="Luxury Bridal Wear" readonly style="background:#f5f5f5;color:#999;cursor:not-allowed;">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Email</label>
+                        <input type="email" id="contactEmail" placeholder="e.g. info@bridalexpert.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Phone</label>
+                        <input type="tel" id="contactPhone" placeholder="e.g. +92 300 1234567">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Store Address</label>
+                        <input type="text" id="storeAddress" placeholder="e.g. Shop #12, Gulberg III, Lahore">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>About Boutique</label>
+                        <textarea id="aboutBoutique" placeholder="Short description of your boutique..."></textarea>
+                    </div>
+                    <div class="full-width">
+                        <button class="save-btn" onclick="saveProfile()">
+                            <i class="fas fa-save"></i> Save Profile
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Business Hours -->
+            <section class="settings-card">
+                <div class="settings-header">
+                    <i class="fas fa-clock"></i>
+                    <h3>Business Hours</h3>
+                </div>
+                <div class="settings-grid">
+                    <div class="form-group">
+                        <label>Opening Time</label>
+                        <input type="time" id="openTime" value="10:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Closing Time</label>
+                        <input type="time" id="closeTime" value="20:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Working Days</label>
+                        <select id="workingDays">
+                            <option>Monday - Saturday</option>
+                            <option>Monday - Sunday</option>
+                            <option>Tuesday - Sunday</option>
+                            <option>Custom</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Appointment Duration</label>
+                        <select id="apptDuration">
+                            <option>30 Minutes</option>
+                            <option selected>1 Hour</option>
+                            <option>2 Hours</option>
+                        </select>
+                    </div>
+                    <div class="full-width">
+                        <button class="save-btn" onclick="saveHours()">
+                            <i class="fas fa-save"></i> Save Hours
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Social Media -->
+            <section class="settings-card">
+                <div class="settings-header">
+                    <i class="fas fa-share-alt"></i>
+                    <h3>Social Media Links</h3>
+                </div>
+                <div class="settings-grid">
+                    <div class="form-group">
+                        <label><i class="fab fa-instagram" style="color:#e1306c;margin-right:6px;"></i>Instagram</label>
+                        <input type="url" id="instagram" placeholder="https://instagram.com/bridalexpert">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fab fa-facebook" style="color:#1877f2;margin-right:6px;"></i>Facebook</label>
+                        <input type="url" id="facebook" placeholder="https://facebook.com/bridalexpert">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fab fa-whatsapp" style="color:#25d366;margin-right:6px;"></i>WhatsApp Number</label>
+                        <input type="tel" id="whatsapp" placeholder="+92 300 1234567">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fab fa-pinterest" style="color:#e60023;margin-right:6px;"></i>Pinterest</label>
+                        <input type="url" id="pinterest" placeholder="https://pinterest.com/bridalexpert">
+                    </div>
+                    <div class="full-width">
+                        <button class="save-btn" onclick="saveSocial()">
+                            <i class="fas fa-save"></i> Save Social Links
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security -->
+            <section class="settings-card">
+                <div class="settings-header">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Security & Password</h3>
+                </div>
+                <div class="settings-grid">
+                    <div class="form-group">
+                        <label>Admin Email</label>
+                        <input type="email" id="adminEmail" placeholder="admin@bridalexpert.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" id="currentPassword" placeholder="Current password">
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="newPassword" placeholder="Min. 8 characters">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Repeat new password">
+                    </div>
+                    <div class="full-width">
+                        <button class="save-btn" onclick="updatePassword()">
+                            <i class="fas fa-lock"></i> Update Password
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Danger Zone -->
+            <section class="settings-card danger-zone">
+                <div class="settings-header">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Danger Zone</h3>
+                </div>
+                <p style="font-size:13px;color:#666;margin-bottom:20px;line-height:1.6;">
+                    Yeh actions permanent hain. Kripya carefully proceed karein.
+                </p>
+                <div style="display:flex;gap:15px;flex-wrap:wrap;">
+                    <button class="reset-btn" onclick="clearCache()">
+                        <i class="fas fa-broom"></i> Clear Cache
+                    </button>
+                    <button class="reset-btn" style="background:#ff6b35;" onclick="exportData()">
+                        <i class="fas fa-download"></i> Export Data
+                    </button>
+                </div>
+            </section>
+
+        </div>
+    </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+    const API = "http://localhost:3000/api";
+
+    function showToast(msg, type = "success") {
+        const toast = document.getElementById("toast");
+        toast.textContent = msg;
+        toast.className = "toast " + type;
+        toast.style.display = "block";
+        setTimeout(() => { toast.style.display = "none"; }, 3000);
+    }
+
+    // Load saved settings
+    function loadSettings() {
+        const profile = JSON.parse(localStorage.getItem("be_profile") || "{}");
+        const hours = JSON.parse(localStorage.getItem("be_hours") || "{}");
+        const social = JSON.parse(localStorage.getItem("be_social") || "{}");
+
+        if (profile.brandName) document.getElementById("brandName").value = profile.brandName;
+        if (profile.contactEmail) document.getElementById("contactEmail").value = profile.contactEmail;
+        if (profile.contactPhone) document.getElementById("contactPhone").value = profile.contactPhone;
+        if (profile.storeAddress) document.getElementById("storeAddress").value = profile.storeAddress;
+        if (profile.aboutBoutique) document.getElementById("aboutBoutique").value = profile.aboutBoutique;
+
+        if (hours.openTime) document.getElementById("openTime").value = hours.openTime;
+        if (hours.closeTime) document.getElementById("closeTime").value = hours.closeTime;
+        if (hours.workingDays) document.getElementById("workingDays").value = hours.workingDays;
+        if (hours.apptDuration) document.getElementById("apptDuration").value = hours.apptDuration;
+
+        if (social.instagram) document.getElementById("instagram").value = social.instagram;
+        if (social.facebook) document.getElementById("facebook").value = social.facebook;
+        if (social.whatsapp) document.getElementById("whatsapp").value = social.whatsapp;
+        if (social.pinterest) document.getElementById("pinterest").value = social.pinterest;
+    }
+
+    function saveProfile() {
+        const profile = {
+            brandName: document.getElementById("brandName").value,
+            contactEmail: document.getElementById("contactEmail").value,
+            contactPhone: document.getElementById("contactPhone").value,
+            storeAddress: document.getElementById("storeAddress").value,
+            aboutBoutique: document.getElementById("aboutBoutique").value
+        };
+        localStorage.setItem("be_profile", JSON.stringify(profile));
+        showToast("✅ Profile saved successfully!");
+    }
+
+    function saveHours() {
+        const hours = {
+            openTime: document.getElementById("openTime").value,
+            closeTime: document.getElementById("closeTime").value,
+            workingDays: document.getElementById("workingDays").value,
+            apptDuration: document.getElementById("apptDuration").value
+        };
+        localStorage.setItem("be_hours", JSON.stringify(hours));
+        showToast("✅ Business hours saved!");
+    }
+
+    function saveSocial() {
+        const social = {
+            instagram: document.getElementById("instagram").value,
+            facebook: document.getElementById("facebook").value,
+            whatsapp: document.getElementById("whatsapp").value,
+            pinterest: document.getElementById("pinterest").value
+        };
+        localStorage.setItem("be_social", JSON.stringify(social));
+        showToast("✅ Social links saved!");
+    }
+
+    async function updatePassword() {
+        const currentPassword = document.getElementById("currentPassword").value;
+        const newPassword = document.getElementById("newPassword").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+        const adminEmail = document.getElementById("adminEmail").value;
+
+        if (!currentPassword || !newPassword || !confirmPassword) {
+            showToast("⚠️ Sab fields fill karein!", "error"); return;
+        }
+        if (newPassword.length < 8) {
+            showToast("⚠️ Password kam az kam 8 characters ka hona chahiye!", "error"); return;
+        }
+        if (newPassword !== confirmPassword) {
+            showToast("⚠️ Passwords match nahi kar rahe!", "error"); return;
+        }
+
+        try {
+            const res = await fetch(`${API}/change-password`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: adminEmail, currentPassword, newPassword })
+            });
+            const data = await res.json();
+            if (res.ok) {
+                showToast("✅ Password updated successfully!");
+                document.getElementById("currentPassword").value = "";
+                document.getElementById("newPassword").value = "";
+                document.getElementById("confirmPassword").value = "";
+            } else {
+                showToast("❌ " + data.message, "error");
+            }
+        } catch (err) {
+            showToast("❌ Server se connect nahi ho saka!", "error");
+        }
+    }
+
+    function clearCache() {
+        if (confirm("Cache clear karna chahte hain?")) {
+            showToast("✅ Cache cleared!");
+        }
+    }
+
+    function exportData() {
+        showToast("⏳ Data export ho raha hai...");
+        setTimeout(() => {
+            fetch(`${API}/bookings`)
+                .then(r => r.json())
+                .then(data => {
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "bridal-expert-data.json";
+                    a.click();
+                    showToast("✅ Data exported!");
+                }).catch(() => showToast("❌ Export failed!", "error"));
+        }, 500);
+    }
+
+    window.onload = loadSettings;
+</script>
+
+</body>
+</html>
