@@ -80,7 +80,23 @@ app.get("/test", (req, res) => { res.json({ message: "Server Working Fine" }); }
 app.post("/api/appointments/book", async (req, res) => { try { const saved = await new Appointment(req.body).save(); res.status(201).json({ success: true, appointment: saved }); } catch (err) { res.status(500).json({ success: false, message: err.message }); } });
 app.get("/api/appointments", async (req, res) => { try { res.json(await Appointment.find().sort({ createdAt: -1 })); } catch (err) { res.status(500).json({ message: err.message }); } });
 
-app.post("/api/orders", async (req, res) => { try { const saved = await new Order(req.body).save(); try { await transporter.sendMail({ from: process.env.EMAIL_USER, to: req.body.email, subject: "🛍️ Order Confirmation - Bridal Expert", html: `<h2>Thank you ${req.body.customerName}! Order received. Total: ${req.body.total}</h2>` }); } catch(e) { console.log("Email error:", e.message); } res.status(201).json({ message: "Order placed", order: saved }); } catch (err) { res.status(500).json({ message: err.message }); } });
+app.post("/api/orders", async (req, res) => {
+  try {
+    const saved = await new Order(req.body).save();
+    res.status(201).json({ message: "Order placed", order: saved });
+
+    transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: req.body.email,
+      subject: "🛍️ Order Confirmation - Bridal Expert",
+      html: `<h2>Thank you ${req.body.customerName}! Order received. Total: ${req.body.total}</h2>`
+    }).catch(e => console.log("Email error:", e.message));
+
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 app.get("/api/orders", async (req, res) => { try { res.json(await Order.find().sort({ date: -1 })); } catch (err) { res.status(500).json({ message: err.message }); } });
 app.get("/api/get-orders", async (req, res) => { try { res.json(await Order.find().sort({ date: -1 })); } catch (err) { res.status(500).json({ message: err.message }); } });
 
